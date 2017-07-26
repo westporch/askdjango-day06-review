@@ -1,5 +1,10 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+
+def min_length_10_validator(value):
+    if len(value) < 10:
+        raise ValidationError('제목을 10자 이상 입력해주세요.') # raise는 리턴이 아니다. 메시지를 던져주는 것이다.
 
 class Post(models.Model):
     '''
@@ -63,8 +68,10 @@ class Post(models.Model):
     * sqlite 브라우저 다운 -> http://sqlitebrowser.org/
     '''
 
-    author = models.CharField(max_length=20, help_text='이름 3글자를 넣어주세요.')
-    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=20)
+    title = models.CharField(max_length=100, 
+        validators=[min_length_10_validator],
+        help_text='10자 이상 입력해주세요.')
     '''
     CharField는 길이 제한이 있는 문자열이다.
     DB는 길이 제한이 있는 문자열을 빠르게 잘 찾아낼 수 있다.
