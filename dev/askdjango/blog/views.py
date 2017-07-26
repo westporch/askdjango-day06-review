@@ -87,6 +87,15 @@ def post_edit(request, pk): # pk인자는 urls.py에서 받아온다, post_edit 
         'form': form,
     })
 
+def post_delete(request, pk):
+    post = Post.objects.get(pk=pk) # 작성했던 글 대상을 불러온다, get은 1개의 대상만 가져온다.
+    if request.method == 'POST':
+        post.delete()
+        return redirect('blog:post_list')
+    return render(request, 'blog/post_confirm_delete.html', {
+        'post': post,
+    })
+
 def post_list1(request):
 	'FBV: 직접 문자열로 HTML형식 응답하기'
 
