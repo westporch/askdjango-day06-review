@@ -63,8 +63,8 @@ class Post(models.Model):
     * sqlite 브라우저 다운 -> http://sqlitebrowser.org/
     '''
 
-    author = models.CharField(max_length=20)
-    title = models.CharField(max_length=100, help_text='이름 3글자를 넣어주세요.')
+    author = models.CharField(max_length=20, help_text='이름 3글자를 넣어주세요.')
+    title = models.CharField(max_length=100)
     '''
     CharField는 길이 제한이 있는 문자열이다.
     DB는 길이 제한이 있는 문자열을 빠르게 잘 찾아낼 수 있다.
