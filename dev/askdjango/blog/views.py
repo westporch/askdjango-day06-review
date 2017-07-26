@@ -71,6 +71,21 @@ def post_new(request):
             'form': form,
     })
 
+def post_edit(request, pk): # pk인자는 urls.py에서 받아온다, post_edit 함수는 post_new 함수와 유사하다.
+    post = Post.objects.get(pk=pk) # 작성했던 글 대상을 불러온다, get은 1개의 대상만 가져온다.
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid(): # 유저가 입력폼에 내용을 채우고 전송(submit)하면, 해당 URL로 POST 요청으로 전달하여 유효성 검증을 수행한다.
+            post = form.save() # DB에 값을 저장한다.
+            return redirect('blog:post_detail', post.id) # 수정한 글의 내용을 보여준다.
+    else:
+        form = PostForm(instance=post)
+
+    return render(request, 'blog/post_form.html', {
+        'form': form,
+    })
+
 def post_list1(request):
 	'FBV: 직접 문자열로 HTML형식 응답하기'
 
