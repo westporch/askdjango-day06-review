@@ -36,7 +36,7 @@ POST 방식
     			- GET을 통해 폼을 볼 때 CSRF 토큰값을 부여한다. 토큰값이 없으면 그 요청을 거부하고 뷰 함수는 호출되지 않는다.
       			(예를 들어 스팸봇은 GET을 안거치고 다이렉트로 POST를 쏜다)
     			-->
-                {% bootstrap_form form %}
+                {% bootstrap_form form %} <!-- bootstrap3 라이브러리를 통해 Form Render -->
                 <input type="submit" value="저장하기" class="btn btn-primary btn-block"/>
             </form>
         </div>
