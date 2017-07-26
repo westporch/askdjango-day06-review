@@ -5,8 +5,9 @@ from django.db.models import Q
 '''
 import os
 from .models import Post
+from .forms import PostForm
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 ''' from django.shortcuts import render에 대한 설명
 
@@ -42,6 +43,33 @@ def post_detail(request, pk):
 	return render(request, 'blog/post_detail.html', {
 		'post': post,
 	})
+
+def post_new(request):
+    if request.method == 'POST':
+        '''
+        뷰 함수에서는 무조건 POST, GET처럼 소문자가 아닌 대문자로 입력해야 한다.
+        html form 태그에서는 method="post" 처럼 post를 소문자로 적어도 된다.
+        POST인지 GET인지는 runserver 콘솔에서 확인할 수 있다.
+        Django에서는 POST 방식을 맨 앞에두고 GET 방식은 맨 뒤에 놓는다. 이것이 Django 스타일이다.
+        POST 방식이 주 코드이기 때문에 그렇다.
+        '''
+        # request.GET   # GET인자
+        # request.POST  # POST인자, 파일 제외
+        # request.FILES # POST인자, 파일만
+
+        form = PostForm(request.POST)
+        if form.is_valid(): # 검증을 수행한다.
+            # form.cleaned_data # {'title': ??, 'author': ??} # cleaned_data에는 검증을 통과한 값들을 dict 타입으로 제공함.
+            post = form.save()  # DB에 값을 저장한다, 저장한 모델의 인스턴스를 리턴
+            return redirect('blog:post_detail', post.id)    # redirect는 뷰에서 이동처리를 할 때 유용하다. 일반적으로 글을 작성하면 작성한 글을 보여준다.
+        #else:
+        #   form.errors     # 오류 정보를 다 가지고 있다.
+    else:
+        #if request.method == 'GET':
+        form = PostForm()
+    return render(request, 'blog/post_form.html', {
+            'form': form,
+    })
 
 def post_list1(request):
 	'FBV: 직접 문자열로 HTML형식 응답하기'
