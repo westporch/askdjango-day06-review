@@ -27,6 +27,7 @@
 | Django | v1.11.3 |
 | Python | v3.5 |
 | Django-debug-toolbar | v1.8 |
+| django-bootstrap3 | v9.0.0 |
 
 ### 사용 방법
 
